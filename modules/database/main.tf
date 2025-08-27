@@ -27,4 +27,9 @@ resource "azurerm_mssql_firewall_rule" "rule" {
   server_id        = azurerm_mssql_server.sql.id
   start_ip_address = "10.0.2.4"
   end_ip_address   = "10.0.2.4"
+  ////////////
+
+
 }
+
+
