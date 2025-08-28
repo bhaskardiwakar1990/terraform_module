@@ -1,0 +1,41 @@
+name: Terraform Pipeline
+
+on:
+  push:
+    branches:
+      - main   # jab main branch par push hoga tab chalega
+
+jobs:
+  terraform:
+    runs-on: BHASKAR
+
+    env:
+      ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+      ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+      ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+      ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+
+    steps:
+      # Step 1: Checkout code
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      # Step 2: Setup Terraform
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      # Step 3: Terraform Init
+      - name: Terraform Init
+        run: terraform init
+
+      # Step 4: Terraform Validate
+      - name: Terraform Validate
+        run: terraform validate
+
+      # Step 5: Terraform Plan
+      - name: Terraform Plan
+        run: terraform plan -out=tfplan
+
+      # Step 6: Terraform Apply
+      - name: Terraform Apply
+        run: terraform apply -auto-approve tfplan
